@@ -1,75 +1,85 @@
-﻿-- Exported from QuickDBD: https://www.quickdatabasediagrams.com/
+-- Exported from QuickDBD: https://www.quickdatabasediagrams.com/
 -- NOTE! If you have used non-SQL datatypes in your design, you will have to change these here.
 
 
-SET XACT_ABORT ON
+CREATE TABLE "departments" (
+    "dept_no" varchar(4)   NOT NULL,
+    "dept_name" varchar(30)   NOT NULL,
+    CONSTRAINT "pk_departments" PRIMARY KEY (
+        "dept_no"
+     )
+);
 
-BEGIN TRANSACTION QUICKDBD
+CREATE TABLE "dept_employee" (
+    "emp_no" Int   NOT NULL,
+    "dept_no" varchar(4)   NOT NULL
+);
 
-CREATE TABLE [Employees] (
-    [emp_no] Int  NOT NULL ,
-    [emp_title] varchar(5)  NOT NULL ,
-    [birth_date] date  NOT NULL ,
-    [first_name] varchar  NOT NULL ,
-    [last_name] varchar  NOT NULL ,
-    [sex] varchar(1)  NOT NULL ,
-    [hire_date] date  NOT NULL ,
-    CONSTRAINT [PK_Employees] PRIMARY KEY CLUSTERED (
-        [emp_no] ASC
-    )
-)
+CREATE TABLE "dept_manager" (
+    "dept_no" varchar(4)   NOT NULL,
+    "emp_no" Int   NOT NULL
+);
 
-CREATE TABLE [Departments] (
-    [dept_no] Int  NOT NULL ,
-    [dept_name] varchar(30)  NOT NULL ,
-    CONSTRAINT [PK_Departments] PRIMARY KEY CLUSTERED (
-        [dept_no] ASC
-    )
-)
+CREATE TABLE "employees" (
+    "emp_no" Int   NOT NULL,
+    "emp_title_id" varchar(5)   NOT NULL,
+    "birth_date" date   NOT NULL,
+    "first_name" varchar   NOT NULL,
+    "last_name" varchar   NOT NULL,
+    "sex" varchar(1)   NOT NULL,
+    "hire_date" date   NOT NULL,
+    CONSTRAINT "pk_employees" PRIMARY KEY (
+        "emp_no"
+     )
+);
 
-CREATE TABLE [Dept_employee] (
-    [emp_no] Int  NOT NULL ,
-    [dept_no] Int  NOT NULL 
-)
+CREATE TABLE "salaries" (
+    "emp_no" Int   NOT NULL,
+    "salary" Int   NOT NULL
+);
 
-CREATE TABLE [Titles] (
-    [title_id] varchar(5)  NOT NULL ,
-    [title] varchar(30)  NOT NULL 
-)
+CREATE TABLE "titles" (
+    "title_id" varchar(5)   NOT NULL,
+    "title" varchar(30)   NOT NULL,
+    CONSTRAINT "pk_titles" PRIMARY KEY (
+        "title_id"
+     )
+);
 
-CREATE TABLE [Salaries] (
-    [emp_no] Int  NOT NULL ,
-    [salary] Int  NOT NULL 
-)
+ALTER TABLE "dept_employee" ADD CONSTRAINT "fk_dept_employee_emp_no" FOREIGN KEY("emp_no")
+REFERENCES "employees" ("emp_no");
 
-CREATE TABLE [Dept_manager] (
-    [dept_no] Int  NOT NULL ,
-    [emp_no] Int  NOT NULL 
-)
+ALTER TABLE "dept_employee" ADD CONSTRAINT "fk_dept_employee_dept_no" FOREIGN KEY("dept_no")
+REFERENCES "departments" ("dept_no");
 
-ALTER TABLE [Employees] WITH CHECK ADD CONSTRAINT [FK_Employees_emp_no] FOREIGN KEY([emp_no])
-REFERENCES [Dept_manager] ([dept_no])
+ALTER TABLE "dept_manager" ADD CONSTRAINT "fk_dept_manager_dept_no" FOREIGN KEY("dept_no")
+REFERENCES "departments" ("dept_no");
 
-ALTER TABLE [Employees] CHECK CONSTRAINT [FK_Employees_emp_no]
+ALTER TABLE "dept_manager" ADD CONSTRAINT "fk_dept_manager_emp_no" FOREIGN KEY("emp_no")
+REFERENCES "employees" ("emp_no");
 
-ALTER TABLE [Employees] WITH CHECK ADD CONSTRAINT [FK_Employees_emp_title] FOREIGN KEY([emp_title])
-REFERENCES [Titles] ([title_id])
+ALTER TABLE "employees" ADD CONSTRAINT "fk_employees_emp_title_id" FOREIGN KEY("emp_title_id")
+REFERENCES "titles" ("title_id");
 
-ALTER TABLE [Employees] CHECK CONSTRAINT [FK_Employees_emp_title]
+ALTER TABLE "salaries" ADD CONSTRAINT "fk_salaries_emp_no" FOREIGN KEY("emp_no")
+REFERENCES "employees" ("emp_no");
 
-ALTER TABLE [Dept_employee] WITH CHECK ADD CONSTRAINT [FK_Dept_employee_emp_no] FOREIGN KEY([emp_no])
-REFERENCES [Employees] ([emp_no])
+-- Import csv into each table.  Watch order due to key structure.
+-- Query the tables to review the columns and data populated
+SELECT *
+FROM departments;
 
-ALTER TABLE [Dept_employee] CHECK CONSTRAINT [FK_Dept_employee_emp_no]
+Select *
+FROM dept_employee;
 
-ALTER TABLE [Dept_employee] WITH CHECK ADD CONSTRAINT [FK_Dept_employee_dept_no] FOREIGN KEY([dept_no])
-REFERENCES [Departments] ([dept_no])
+Select *
+FROM dept_manager;
 
-ALTER TABLE [Dept_employee] CHECK CONSTRAINT [FK_Dept_employee_dept_no]
+Select *
+FROM employees;
 
-ALTER TABLE [Salaries] WITH CHECK ADD CONSTRAINT [FK_Salaries_emp_no] FOREIGN KEY([emp_no])
-REFERENCES [Employees] ([emp_no])
+Select *
+FROM salaries;
 
-ALTER TABLE [Salaries] CHECK CONSTRAINT [FK_Salaries_emp_no]
-
-COMMIT TRANSACTION QUICKDBD
+Select *
+FROM titles;
