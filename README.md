@@ -20,5 +20,5 @@ Features/Files:
 QuickDBD.png: ERD schema.
 QuickDBD.sql: this is the sql file used to create the SQL tables with appropriate primary and foreign key structure.
 QueryResults.sql: this file has the query code and output for the (8) requested employee queries.
-hwbonus.ipynb: this jupyter notebook file has the SQLalchemy structure to bring in the SQL tables into pandas.  It also includeds the dataframes merged to create the charts.
+hwbonus.ipynb: this jupyter notebook file has the SQLalchemy structure to bring in the SQL tables into pandas.  It also included the dataframes merged to create the charts.
 2 final .png files were output as separate files from the Bonus section.
