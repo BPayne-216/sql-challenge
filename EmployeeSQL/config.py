@@ -1,1 +1,1 @@
-sql_entry = 'postgresql+psycopg2://postgres:ziggyboy216@localhost:5432/employees_db'
+sql_entry = 'postgresql+psycopg2://postgres:1234xxxx@localhost:5432/employees_db'
